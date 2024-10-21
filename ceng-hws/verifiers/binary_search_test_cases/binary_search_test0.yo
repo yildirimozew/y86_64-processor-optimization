@@ -1,0 +1,97 @@
+0x000:                      | .pos 0x0
+0x000: 30f4001f000000000000 | irmovq stack, %rsp
+0x00a: 30f20a00000000000000 | irmovq $10, %rdx #queried value
+0x014: 30f70810000000000000 | irmovq array_begin, %rdi
+0x01e: 30f60810000000000000 | irmovq array_end, %rsi
+0x028: 803200000000000000   | call binary_search
+0x031: 00                   | halt
+                            | 
+                            | 
+0x032:                      | binary_search:
+0x032: 30f80100000000000000 |     irmovq $1, %r8
+0x03c: 30fa0800000000000000 |     irmovq $8, %r10
+0x046: 30fd0200000000000000 |     irmovq $2, %r13
+0x050: 30f0ffffffffffffffff |     irmovq $-1, %rax
+0x05a: a06f                 |     pushq %rsi
+0x05c: 6176                 |     subq %rdi, %rsi
+0x05e: 206b                 |     rrmovq %rsi, %r11
+0x060: b06f                 |     popq %rsi
+0x062: 67db                 |     dvvq %r13, %r11
+0x064: a0bf                 |     pushq %r11
+0x066: 66ab                 |     modq %r10, %r11
+0x068: 20b9                 |     rrmovq %r11, %r9
+0x06a: b0bf                 |     popq %r11
+0x06c: 619b                 |     subq %r9, %r11
+0x06e: 607b                 |     addq %rdi, %r11
+0x070: 20b3                 |     rrmovq %r11, %rbx
+0x072: a07f                 |     pushq %rdi
+0x074: 6167                 |     subq %rsi, %rdi
+0x076: b07f                 |     popq %rdi
+0x078: 75a800000000000000   |     jge cond_one
+0x081: 50c30000000000000000 |     mrmovq 0(%rbx), %r12
+0x08b: 612c                 |     subq %rdx, %r12
+0x08d: 73a900000000000000   |     je cond_two
+0x096: 72b200000000000000   |     jl cond_three
+0x09f: 700501000000000000   |     jmp cond_four
+0x0a8:                      | cond_one:
+0x0a8: 90                   |     ret
+0x0a9:                      | cond_two:
+0x0a9: 6173                 |     subq %rdi, %rbx
+0x0ab: 67a3                 |     dvvq %r10, %rbx
+0x0ad: 6083                 |     addq %r8, %rbx
+0x0af: 2030                 |     rrmovq %rbx, %rax
+0x0b1: 90                   |     ret
+0x0b2:                      | cond_three:
+0x0b2: a07f                 |     pushq %rdi 
+0x0b4: a06f                 |     pushq %rsi 
+0x0b6: a02f                 |     pushq %rdx
+0x0b8: a03f                 |     pushq %rbx
+0x0ba: a01f                 |     pushq %rcx
+0x0bc: 60a3                 |     addq %r10, %rbx 
+0x0be: 2037                 |     rrmovq %rbx, %rdi
+0x0c0: 803200000000000000   |     call binary_search
+0x0c9: b01f                 |     popq %rcx
+0x0cb: b03f                 |     popq %rbx 
+0x0cd: b02f                 |     popq %rdx
+0x0cf: b06f                 |     popq %rsi 
+0x0d1: b07f                 |     popq %rdi 
+0x0d3: 2001                 |     rrmovq %rax, %rcx
+0x0d5: 30f0ffffffffffffffff |     irmovq $-1, %rax
+0x0df: a01f                 |     pushq %rcx 
+0x0e1: 6101                 |     subq %rax, %rcx 
+0x0e3: b01f                 |     popq %rcx
+0x0e5: 730201000000000000   |     je cond_three_two
+0x0ee: 70f700000000000000   |     jmp cond_three_one
+0x0f7:                      | cond_three_one:
+0x0f7: 6173                 |     subq %rdi, %rbx
+0x0f9: 67a3                 |     dvvq %r10, %rbx
+0x0fb: 6083                 |     addq %r8, %rbx
+0x0fd: 6031                 |     addq %rbx, %rcx
+0x0ff: 2010                 |     rrmovq %rcx, %rax 
+0x101: 90                   |     ret
+0x102:                      | cond_three_two:
+0x102: 2010                 |     rrmovq %rcx, %rax 
+0x104: 90                   |     ret
+0x105:                      | cond_four:
+0x105: a07f                 |     pushq %rdi 
+0x107: a06f                 |     pushq %rsi 
+0x109: a02f                 |     pushq %rdx
+0x10b: a03f                 |     pushq %rbx
+0x10d: 2036                 |     rrmovq %rbx, %rsi
+0x10f: 803200000000000000   |     call binary_search
+0x118: b03f                 |     popq %rbx 
+0x11a: b02f                 |     popq %rdx
+0x11c: b06f                 |     popq %rsi 
+0x11e: b07f                 |     popq %rdi 
+0x120: 90                   |     ret
+                            | 
+                            | 
+                            | 
+0x1008:                      | .pos 0x1008
+0x1008:                      | array_begin:
+0x1008:                      | array_end:
+0x1008:0000000000000000      | .quad 0
+0x1f00:                      | .pos 0x1F00
+0x1f00:                      | stack:
+0x1f00:0000000000000000      | .quad 0
+                             | 

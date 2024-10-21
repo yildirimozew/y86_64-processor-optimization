@@ -1,0 +1,18 @@
+.pos 0x0
+init:
+    irmovq stack, %rsp
+    call returntest
+    irmovq $13, %r9
+    halt
+
+returntest:
+    irmovq $8, %rdi 
+    irmovq $9, %rsi
+    irmovq $10, %rdx
+    irmovq $11, %rcx 
+    ret
+    irmovq $12, %r8
+
+.pos 0x1F00
+stack:
+    .quad 0

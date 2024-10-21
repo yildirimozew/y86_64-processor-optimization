@@ -1,0 +1,81 @@
+# YILDIRIM ÖZEN 2521862
+.pos 0x0
+init:
+    irmovq stack, %rsp
+    irmovq $6, %rdx
+    irmovq array_begin, %rdi
+    irmovq array_end, %rsi
+    call binary_search_it
+    halt
+
+#implement your code below (DO NOT CHANGE/REMOVE THIS COMMENT)
+binary_search:
+    irmovq $1, %r8
+    irmovq $8, %r10
+    irmovq $2, %r13
+    irmovq $-1, %rax
+    rrmovq %rdi, %rcx
+    pushq %rdi
+    subq %rsi, %rdi
+    popq %rdi
+    jge ending
+starting:
+    pushq %rsi
+    subq %rdi, %rsi
+    rrmovq %rsi, %r11
+    popq %rsi
+    dvvq %r13, %r11
+    pushq %r11
+    modq %r10, %r11
+    rrmovq %r11, %r9
+    popq %r11
+    subq %r9, %r11
+    addq %rdi, %r11
+    rrmovq %r11, %rbx
+    mrmovq 0(%rbx), %r12
+    subq %rdx, %r12
+    jl cond_one
+    jg cond_two
+    subq %rcx, %rbx
+    dvvq %r10, %rbx
+    addq %r8, %rbx
+    rrmovq %rbx, %rax
+    ret
+cond_one:
+    pushq %rbx
+    addq %r10, %rbx
+    rrmovq %rbx, %rdi
+    popq %rbx
+    pushq %rdi
+    subq %rsi, %rdi
+    popq %rdi
+    jl starting
+    jmp ending
+cond_two:
+    rrmovq %rbx, %rsi
+    pushq %rdi
+    subq %rsi, %rdi
+    popq %rdi
+    jl starting
+ending:
+    ret
+
+#implement your code above (DO NOT CHANGE/REMOVE THIS COMMENT)
+
+.pos 0x1008
+array_begin:
+    .quad 1
+    .quad 2
+    .quad 3
+    .quad 5
+    .quad 6
+    .quad 7
+    .quad 9
+    .quad 11
+array_end:
+    .quad 0
+.pos 0x1F00
+stack:
+    .quad 0
+
+

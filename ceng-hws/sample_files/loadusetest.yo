@@ -1,0 +1,22 @@
+0x000:                      | .pos 0x0
+0x000:                      | init:
+0x000: 30f4001f000000000000 |     irmovq stack, %rsp
+0x00a: 801e00000000000000   |     call loadusetest
+0x013: 30f90d00000000000000 |     irmovq $13, %r9
+0x01d: 00                   |     halt
+                            | 
+0x01e:                      | loadusetest:
+0x01e: 30f70800000000000000 |     irmovq $8, %rdi 
+0x028: 30f60900000000000000 |     irmovq $9, %rsi
+0x032: 30f20a00000000000000 |     irmovq $10, %rdx
+0x03c: 30f10b00000000000000 |     irmovq $11, %rcx 
+0x046: 50740000000000000000 |     mrmovq (%rsp), %rdi
+0x050: 6067                 |     addq %rsi, %rdi
+0x052: 30f60900000000000000 |     irmovq $9, %rsi
+0x05c: 30f20a00000000000000 |     irmovq $10, %rdx
+0x066: 30f10b00000000000000 |     irmovq $11, %rcx 
+0x070: 90                   |     ret
+0x071: 30f80c00000000000000 |     irmovq $12, %r8
+                            | 
+0x1f00:                      | .pos 0x1F00
+0x1f00:                      | stack:

@@ -1,0 +1,79 @@
+                            | # YILDIRIM ÖZEN 2521862
+0x000:                      | .pos 0x0
+0x000:                      | init:
+0x000: 30f4001f000000000000 |     irmovq stack, %rsp
+0x00a: 30f20600000000000000 |     irmovq $6, %rdx
+0x014: 30f70810000000000000 |     irmovq array_begin, %rdi
+0x01e: 30f64810000000000000 |     irmovq array_end, %rsi
+0x028: 803d00000000000000   |     call binary_search_it
+0x031: 00                   |     halt
+                            | 
+                            | #implement your code below (DO NOT CHANGE/REMOVE THIS COMMENT)
+                            | 
+0x032:                      | binary_search:
+0x032: 30f0ffffffffffffffff |     irmovq $-1, %rax
+0x03c: 90                   |     ret
+                            | 
+0x03d:                      | binary_search_it:
+0x03d: 30fd0200000000000000 |     irmovq $2, %r13
+0x047: 30fe0100000000000000 |     irmovq $1, %r14
+0x051: 30f0feffffffffffffff |     irmovq $-2, %rax
+0x05b: 2071                 |     rrmovq %rdi, %rcx
+0x05d: 6001                 |     addq %rax, %rcx
+0x05f: a07f                 |     pushq %rdi 
+0x061: 6167                 |     subq %rsi, %rdi
+0x063: b07f                 |     popq %rdi 
+0x065: 75d000000000000000   |     jge ending 
+0x06e:                      | starting:
+0x06e: a06f                 |     pushq %rsi 
+0x070: 6176                 |     subq %rdi, %rsi 
+0x072: 206b                 |     rrmovq %rsi, %r11
+0x074: b06f                 |     popq %rsi
+0x076: 67db                 |     dvvq %r13, %r11 
+0x078: 607b                 |     addq %rdi, %r11 
+0x07a: 20b3                 |     rrmovq %r11, %rbx
+0x07c: 50c30000000000000000 |     mrmovq 0(%rbx), %r12
+0x086: 612c                 |     subq %rdx, %r12 
+0x088: 729f00000000000000   |     jl cond_one
+0x091: 76bf00000000000000   |     jg cond_two
+0x09a: 6113                 |     subq %rcx, %rbx
+0x09c: 2030                 |     rrmovq %rbx, %rax
+0x09e: 90                   |     ret
+0x09f:                      | cond_one:
+0x09f: a03f                 |     pushq %rbx
+0x0a1: 60e3                 |     addq %r14, %rbx 
+0x0a3: 2037                 |     rrmovq %rbx, %rdi
+0x0a5: b03f                 |     popq %rbx
+0x0a7: a07f                 |     pushq %rdi 
+0x0a9: 6167                 |     subq %rsi, %rdi
+0x0ab: b07f                 |     popq %rdi 
+0x0ad: 726e00000000000000   |     jl starting 
+0x0b6: 70d000000000000000   |     jmp ending
+0x0bf:                      | cond_two:
+0x0bf: 2036                 |     rrmovq %rbx, %rsi
+0x0c1: a07f                 |     pushq %rdi 
+0x0c3: 6167                 |     subq %rsi, %rdi
+0x0c5: b07f                 |     popq %rdi 
+0x0c7: 726e00000000000000   |     jl starting 
+0x0d0:                      | ending:
+0x0d0: 90                   |     ret
+                            | 
+                            | #implement your code above (DO NOT CHANGE/REMOVE THIS COMMENT)
+                            | 
+0x1008:                      | .pos 0x1008
+0x1008:                      | array_begin:
+0x1008:0100000000000000      |     .quad 1
+0x1010:0200000000000000      |     .quad 2
+0x1018:0300000000000000      |     .quad 3
+0x1020:0500000000000000      |     .quad 5
+0x1028:0600000000000000      |     .quad 6
+0x1030:0700000000000000      |     .quad 7
+0x1038:0900000000000000      |     .quad 9
+0x1040:0b00000000000000      |     .quad 11
+0x1048:                      | array_end:
+0x1048:0000000000000000      |     .quad 0
+0x1f00:                      | .pos 0x1F00
+0x1f00:                      | stack:
+0x1f00:0000000000000000      |     .quad 0
+                             | 
+                             | 
