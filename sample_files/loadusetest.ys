@@ -1,0 +1,23 @@
+.pos 0x0
+init:
+    irmovq stack, %rsp
+    call loadusetest
+    irmovq $13, %r9
+    halt
+
+loadusetest:
+    irmovq $8, %rdi 
+    irmovq $9, %rsi
+    irmovq $10, %rdx
+    irmovq $11, %rcx 
+    mrmovq (%rsp), %rdi
+    addq %rsi, %rdi
+    irmovq $9, %rsi
+    irmovq $10, %rdx
+    irmovq $11, %rcx 
+    ret
+    irmovq $12, %r8
+
+.pos 0x1F00
+stack:
+    .quad 15

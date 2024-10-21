@@ -1,0 +1,81 @@
+0x000:                      | .pos 0x0
+0x000:                      | init:
+0x000: 30f4001f000000000000 |     irmovq stack, %rsp
+0x00a: 30f70810000000000000 |     irmovq array_begin1, %rdi
+0x014: 30f61010000000000000 |     irmovq array_end1, %rsi
+0x01e: 30f21810000000000000 |     irmovq array_begin2, %rdx
+0x028: 30f12010000000000000 |     irmovq array_end2, %rcx
+0x032: 30f80013000000000000 |     irmovq array_begin3, %r8
+0x03c: 804600000000000000   |     call merge
+0x045: 00                   |     halt
+                            | 
+                            | 
+0x046:                      | merge:
+0x046:                      | loop1:
+0x046: 30fa0800000000000000 |     irmovq $8, %r10
+0x050: a07f                 |     pushq %rdi 
+0x052: 6167                 |     subq %rsi, %rdi
+0x054: b07f                 |     popq %rdi
+0x056: 75bf00000000000000   |     jge loop2
+0x05f: a02f                 |     pushq %rdx 
+0x061: 6112                 |     subq %rcx, %rdx
+0x063: b02f                 |     popq %rdx
+0x065: 75bf00000000000000   |     jge loop2
+0x06e: 50b70000000000000000 |     mrmovq 0(%rdi), %r11
+0x078: 50c20000000000000000 |     mrmovq 0(%rdx), %r12
+0x082: a0bf                 |     pushq %r11 
+0x084: 61cb                 |     subq %r12, %r11 
+0x086: b0bf                 |     popq %r11
+0x088: 75a800000000000000   |     jge loop1_2
+0x091: 40b80000000000000000 |     rmmovq %r11, 0(%r8)
+0x09b: 60a7                 |     addq %r10, %rdi
+0x09d: 60a8                 |     addq %r10, %r8
+0x09f: 704600000000000000   |     jmp loop1
+0x0a8:                      | loop1_2:
+0x0a8: 40c80000000000000000 |     rmmovq %r12, 0(%r8)
+0x0b2: 60a2                 |     addq %r10, %rdx
+0x0b4: 60a8                 |     addq %r10, %r8
+0x0b6: 704600000000000000   |     jmp loop1
+0x0bf:                      | loop2:
+0x0bf: 50b70000000000000000 |     mrmovq 0(%rdi), %r11
+0x0c9: a07f                 |     pushq %rdi 
+0x0cb: 6167                 |     subq %rsi, %rdi
+0x0cd: b07f                 |     popq %rdi
+0x0cf: 75ef00000000000000   |     jge loop3
+0x0d8: 40b80000000000000000 |     rmmovq %r11, 0(%r8)
+0x0e2: 60a7                 |     addq %r10, %rdi
+0x0e4: 60a8                 |     addq %r10, %r8
+0x0e6: 70bf00000000000000   |     jmp loop2
+0x0ef:                      | loop3:
+0x0ef: 50c20000000000000000 |     mrmovq 0(%rdx), %r12
+0x0f9: a02f                 |     pushq %rdx 
+0x0fb: 6112                 |     subq %rcx, %rdx
+0x0fd: b02f                 |     popq %rdx
+0x0ff: 751f01000000000000   |     jge end
+0x108: 40c80000000000000000 |     rmmovq %r12, 0(%r8)
+0x112: 60a2                 |     addq %r10, %rdx
+0x114: 60a8                 |     addq %r10, %r8
+0x116: 70ef00000000000000   |     jmp loop3
+0x11f:                      | end:
+0x11f: 90                   |     ret
+                            | 
+                            | 
+                            | 
+                            | 
+0x1008:                      | .pos 0x1008
+0x1008:                      | array_begin1:
+0x1008:0400000000000000      | .quad 4
+0x1010:                      | array_end1:
+0x1010:0000000000000000      | .quad 0
+0x1018:                      | array_begin2:
+0x1018:0300000000000000      | .quad 3
+0x1020:                      | array_end2:
+0x1020:0000000000000000      | .quad 0
+                             | 
+0x1300:                      | .pos 0x1300
+0x1300:                      | array_begin3:
+0x1300:0000000000000000      | .quad 0
+0x1f00:                      | .pos 0x1F00
+0x1f00:                      | stack:
+0x1f00:0000000000000000      | .quad 0
+                             | 

@@ -1,0 +1,109 @@
+# YILDIRIM ÖZEN 2521862
+.pos 0x0
+init:
+    irmovq stack, %rsp
+    irmovq $6, %rdx
+    irmovq array_begin, %rdi
+    irmovq array_end, %rsi
+    call binary_search_it
+    halt
+
+#implement your code below (DO NOT CHANGE/REMOVE THIS COMMENT)
+
+binary_search:
+    irmovq $1, %r8
+    irmovq $8, %r10
+    irmovq $2, %r13
+    irmovq $-1, %rax
+    pushq %rsi
+    subq %rdi, %rsi
+    rrmovq %rsi, %r11
+    popq %rsi
+    dvvq %r13, %r11
+    pushq %r11
+    modq %r10, %r11
+    rrmovq %r11, %r9
+    popq %r11
+    subq %r9, %r11
+    addq %rdi, %r11
+    rrmovq %r11, %rbx
+    pushq %rdi
+    subq %rsi, %rdi
+    popq %rdi
+    jge cond_one
+    mrmovq 0(%rbx), %r12
+    subq %rdx, %r12
+    je cond_two
+    jl cond_three
+    jmp cond_four
+cond_one:
+    ret
+cond_two:
+    subq %rdi, %rbx
+    dvvq %r10, %rbx
+    addq %r8, %rbx
+    rrmovq %rbx, %rax
+    ret
+cond_three:
+    pushq %rdi 
+    pushq %rsi 
+    pushq %rdx
+    pushq %rbx
+    pushq %rcx
+    addq %r10, %rbx 
+    rrmovq %rbx, %rdi
+    call binary_search
+    popq %rcx
+    popq %rbx 
+    popq %rdx
+    popq %rsi 
+    popq %rdi 
+    rrmovq %rax, %rcx
+    irmovq $-1, %rax
+    pushq %rcx 
+    subq %rax, %rcx 
+    popq %rcx
+    je cond_three_two
+    jmp cond_three_one
+cond_three_one:
+    subq %rdi, %rbx
+    dvvq %r10, %rbx
+    addq %r8, %rbx
+    addq %rbx, %rcx
+    rrmovq %rcx, %rax 
+    ret
+cond_three_two:
+    rrmovq %rcx, %rax 
+    ret
+cond_four:
+    pushq %rdi 
+    pushq %rsi 
+    pushq %rdx
+    pushq %rbx
+    rrmovq %rbx, %rsi
+    call binary_search
+    popq %rbx 
+    popq %rdx
+    popq %rsi 
+    popq %rdi 
+    ret
+
+#implement your code above (DO NOT CHANGE/REMOVE THIS COMMENT)
+
+.pos 0x1008
+array_begin:
+    .quad 1
+    .quad 2
+    .quad 3
+    .quad 5
+    .quad 6
+    .quad 7
+    .quad 9
+    .quad 11
+array_end:
+    .quad 0
+.pos 0x1F00
+stack:
+    .quad 0
+
+
